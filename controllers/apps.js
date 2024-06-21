@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const responseManager = require("../utilities/responseManager");
 const { validationResult } = require("express-validator");
 const App = require("../models/apps");
+const Guideline = require("../models/guideline");
 
-exports.addApp = async (req, res) => {
+exports.addApp = async (req, res) => {  
   const { appid, appName, appLogo, guidelines } = req.body;
-
   const errors = validationResult(req);
 
   if (errors.isEmpty()) {
@@ -51,9 +51,7 @@ exports.listApps = async (req, res) => {
               .then((appList) => {
                 return responseManager.onSuccess(
                   "App list",
-                  { list: appList
-                    // , total: totalRecords 
-                  },
+                  appList,
                   res
                 );
               })
@@ -78,6 +76,15 @@ exports.getOneApp = async (req, res) => {
       mongoose.Types.ObjectId.isValid(appid)
     ) {
       const appData = await App.findById(appid)
+        .populate([
+          {
+            path: "guidelines",
+            populate: {
+              path: "_id",
+              model: Guideline,
+              select: "policyid policy",
+            },
+          }])
         .select("-createdAt -updatedAt -__v")
         .lean();
       

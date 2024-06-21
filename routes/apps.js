@@ -11,21 +11,17 @@ const appValidation = [
     .notEmpty()
     .withMessage("App Name is required")
     .trim()
-    .isLength(40)
+    .isLength({isMin: 2, isMax: 40})
     .withMessage("App Name should be less than 40 character"),
   check("appLogo")
     .notEmpty()
-    .withMessage("App Logo is required")
-    .trim(),
+    .withMessage("App Logo is required"),
     check("guidelines")
-    .notEmpty()
-    .withMessage("App guidelines is required")
-    .trim()
 ];
 
 router.post("/app", helper.isAuthenticated, helper.isAdmin, appValidation, addApp);
 
-router.get("/listapp", listApps);
+router.get("/allapp", listApps);
 router.get("/app", getOneApp);
 
 router.post("/removeapp", helper.isAuthenticated, helper.isAdmin, removeApp);

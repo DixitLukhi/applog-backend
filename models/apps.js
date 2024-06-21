@@ -8,14 +8,8 @@ const appSchema = new mongoose.Schema({
         type: String,
         required: true,
     }, 
-    appLogo: {
-        type: String,
-        required: true
-    },
-    guidelines: {
-        type: Array,
-        required: true
-    }
+    appLogo: {},
+    guidelines: []
 });
 
 module.exports = mongoose.model('App', appSchema);

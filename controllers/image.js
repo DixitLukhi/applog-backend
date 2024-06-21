@@ -4,9 +4,9 @@ const allowedContentTypes = require("../utilities/contentTypes");
 var fs = require("fs");
 const sharp = require("sharp");
 const outputFilePath = "./images/output.webp";
-const { saveToDrive, deleteFromDrive, videoSaveToDrive, deleteVideoFromDrive } = require("../utilities/googleDrive");
+const { saveToDrive } = require("../utilities/googleDrive");
 
-exports.thumbnailUpload = async (req, res) => {
+exports.logoUpload = async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.token.userid && mongoose.Types.ObjectId.isValid(req.token.userid)) {
         if (req.file) {
@@ -20,14 +20,14 @@ exports.thumbnailUpload = async (req, res) => {
                     console.error("Image conversion failed:", err);
                     return;
                   }
-  
+                  
                   const webpBuffer = fs.readFileSync(outputFilePath);
                   saveToDrive(
                     webpBuffer,
                     fileSize,
                     "image/webp",
                     req.file.originalname,
-                    ["19_oBI2dR4D9-u7wMHwjI4Fo-PNw9AsYq"]
+                    ["10hatStNLM-3kFOWK8Qbe0ee0zBroU8mw"]
                   )
                     .then((result) => {
                       return responseManager.onSuccess(

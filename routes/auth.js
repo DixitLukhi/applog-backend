@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
-const { signup, signin, makeAdmin } = require("../controllers/auth");
+const { signup, signin, makeAdmin, getUser, getAllUser } = require("../controllers/auth");
 const helper = require("../utilities/helper");
 
 const signUpValidation = [
@@ -53,11 +53,19 @@ const adminValidation = [
     .trim()
     .isEmail()
     .withMessage("Email is not correct"),
+    check("role")
+    .notEmpty()
+    .withMessage("ROle id required")
+    .trim()
 ];
 
 router.post("/signup", signUpValidation, signup);
 
 router.post("/signin", signInValidation, signin);
+
+router.get("/user", helper.isAuthenticated, getUser);
+
+router.get("/alluser", helper.isAuthenticated, helper.isAdmin, getAllUser);
 
 router.post("/admin", adminValidation, helper.isAuthenticated, helper.isAdmin, makeAdmin);
 
