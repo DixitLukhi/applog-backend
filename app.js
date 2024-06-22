@@ -28,7 +28,7 @@ app.use(cookieParser());
 // app.use(cors());
 app.use(
   cors({
-    origin: "*",
+    origin: "https://applog-backend.onrender.com",
     methods: "GET, POST, DELETE",
     allowedHeaders: "Content-Type,Authorization",
   })
