@@ -5,6 +5,8 @@ const App = require("../models/apps");
 const Guideline = require("../models/guideline");
 
 exports.addApp = async (req, res) => {  
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   const { appid, appName, appLogo, guidelines } = req.body;
   const errors = validationResult(req);
 
@@ -35,6 +37,8 @@ exports.addApp = async (req, res) => {
 };
 
 exports.listApps = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
     const { page, limit } = req.query;
     const p = Number(page) ? Number(page) : 1;
     const l = Number(limit) ? Number(limit) : 10;

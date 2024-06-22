@@ -7,7 +7,8 @@ const outputFilePath = "./images/output.webp";
 const { saveToDrive } = require("../utilities/googleDrive");
 
 exports.logoUpload = async (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.token.userid && mongoose.Types.ObjectId.isValid(req.token.userid)) {
         if (req.file) {
           if (allowedContentTypes.imagearray.includes(req.file.mimetype)) {

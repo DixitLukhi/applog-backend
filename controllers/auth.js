@@ -49,12 +49,8 @@ exports.signup = async (req, res) => {
 };
 
 exports.signin = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "*");
   const { email, password } = req.body;
 
   const errors = validationResult(req);
@@ -94,6 +90,8 @@ exports.signin = async (req, res) => {
 };
 
 exports.getAllUser = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   if (req.token.userid && mongoose.Types.ObjectId.isValid(req.token.userid)) {
       User.find()
             .select("first_name last_name email role")
@@ -117,6 +115,8 @@ exports.getAllUser = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   if (req.token.userid && mongoose.Types.ObjectId.isValid(req.token.userid)) {
       const userData = await User.findById(req.token.userid)
       .select("-otp -password -createdAt -updatedAt -__v")
@@ -134,6 +134,8 @@ exports.getUser = async (req, res) => {
 
 
 exports.makeAdmin = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   const { email, role } = req.body;
 
   const errors = validationResult(req);

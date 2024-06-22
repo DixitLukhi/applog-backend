@@ -5,6 +5,8 @@ const { User } = require("../models/user");
 const Guideline = require("../models/guideline");
 
 exports.addGuideline = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   const { guidelineid, policyid, policy } = req.body;
 
   const errors = validationResult(req);
@@ -43,6 +45,8 @@ exports.addGuideline = async (req, res) => {
 };
 
 exports.listGuideline = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
     const { page, limit } = req.query;
     const p = Number(page) ? Number(page) : 1;
     const l = Number(limit) ? Number(limit) : 10;
@@ -74,6 +78,8 @@ exports.listGuideline = async (req, res) => {
 };
 
 exports.removeGuideline = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   const { guidelineid } = req.body;
 
       if (
