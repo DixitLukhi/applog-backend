@@ -9,6 +9,7 @@ const session = require("express-session");
 const authRoutes = require("./routes/auth");
 const guidelineRoutes = require("./routes/guideline");
 const appRoutes = require("./routes/apps");
+const imageRoutes = require("./routes/image");
 
 const app = express();
 
@@ -48,6 +49,7 @@ mongoose
 app.use("/api", authRoutes);
 app.use("/api", guidelineRoutes);
 app.use("/api", appRoutes);
+app.use("/api", imageRoutes);
 
 //  PORT
 const port = process.env.PORT || 1234;

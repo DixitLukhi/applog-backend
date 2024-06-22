@@ -19,6 +19,14 @@ exports.addGuideline = async (req, res) => {
       
       return responseManager.onSuccess("Guideline updated", 1, res);
     } else {
+    const policyData = await Guideline.findOne({ policyid: policyid }).lean();
+
+    if (policyData && policyData != null) {
+      return responseManager.badrequest(
+        { message: "Policy id should be unique" },
+        res
+      );
+    } else {
       const obj = {
         policyid: policyid,
         policy: policy
@@ -26,6 +34,7 @@ exports.addGuideline = async (req, res) => {
       await Guideline.create(obj);
       
       return responseManager.onSuccess("Guideline added", 1, res);
+    }
       
     }
   } else {
@@ -50,9 +59,7 @@ exports.listGuideline = async (req, res) => {
               .then((guidelineList) => {
                 return responseManager.onSuccess(
                   "GuidelineList list",
-                  { list: guidelineList
-                    // , total: totalRecords 
-                  },
+                  guidelineList,
                   res
                 );
               })

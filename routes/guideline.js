@@ -11,8 +11,8 @@ const policyValidation = [
     .notEmpty()
     .withMessage("Policy id is required")
     .trim()
-    .isLength(5)
-    .withMessage("Policy id should be of 5 character"),
+    .isLength(6)
+    .withMessage("Policy id should be of 6 character"),
   check("policy")
     .notEmpty()
     .withMessage("Policy is required")
@@ -21,7 +21,7 @@ const policyValidation = [
 
 router.post("/guideline", helper.isAuthenticated, helper.isAdmin, policyValidation, addGuideline);
 
-router.get("/guideline",listGuideline);
+router.get("/allguideline",listGuideline);
 
 router.post("/removeguideline", helper.isAuthenticated, helper.isAdmin, removeGuideline);
 

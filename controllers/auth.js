@@ -93,8 +93,48 @@ exports.signin = async (req, res) => {
   }
 };
 
+exports.getAllUser = async (req, res) => {
+  if (req.token.userid && mongoose.Types.ObjectId.isValid(req.token.userid)) {
+      User.find()
+            .select("first_name last_name email role")
+            .lean()
+            .then((userList) => {
+              return responseManager.onSuccess(
+                "User list",
+                userList,
+                res
+              );
+            })
+            .catch((error) => {
+              return responseManager.onError(error, res);
+            });
+        } else {
+    return responseManager.badrequest(
+      { message: "Invalid token to get user list" },
+      res
+    );
+  }
+};
+
+exports.getUser = async (req, res) => {
+  if (req.token.userid && mongoose.Types.ObjectId.isValid(req.token.userid)) {
+      const userData = await User.findById(req.token.userid)
+      .select("-otp -password -createdAt -updatedAt -__v")
+      .lean();
+    if (userData && userData != null) {
+      return responseManager.onSuccess("User profile", userData, res);
+    }
+  } else {
+    return responseManager.badrequest(
+      { message: "Invalid token to get user profile" },
+      res
+    );
+  }
+};
+
+
 exports.makeAdmin = async (req, res) => {
-  const { email } = req.body;
+  const { email, role } = req.body;
 
   const errors = validationResult(req);
 
@@ -102,9 +142,9 @@ exports.makeAdmin = async (req, res) => {
     const userData = await User.findOne({ email }).select("role").lean();
     if (userData && userData != null) {
       await User.findByIdAndUpdate(userData._id, {
-        role: 1,
+        role: role == 1 ? 0 : 1,
       });
-      return responseManager.onSuccess("You are now admin", 1, res);
+      return responseManager.onSuccess(`User is now ${role == 1? "normal User" : "Admin"}`, 1, res);
     } else {
       return responseManager.badrequest(
         { message: "User does not exist" },
