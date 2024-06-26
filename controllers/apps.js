@@ -86,10 +86,10 @@ exports.getOneApp = async (req, res) => {
             populate: {
               path: "_id",
               model: Guideline,
-              select: "policyid policy",
+              // select: "policyid policy",
             },
           }])
-        .select("-createdAt -updatedAt -__v")
+        // .select("-createdAt -updatedAt -__v")
         .lean();
       
         if (appData && appData != null) {
