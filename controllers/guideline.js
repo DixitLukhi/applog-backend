@@ -7,7 +7,7 @@ const Guideline = require("../models/guideline");
 exports.addGuideline = async (req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  const { guidelineid, policyid, policy } = req.body;
+  const { guidelineid, policyid, policy, priority } = req.body;
 
   const errors = validationResult(req);
 
@@ -15,7 +15,8 @@ exports.addGuideline = async (req, res) => {
     if (guidelineid && guidelineid != "" && mongoose.Types.ObjectId.isValid(guidelineid)) {
       const obj = {
         policyid: policyid,
-        policy: policy
+        policy: policy,
+        priority: priority
       }
       await Guideline.findByIdAndUpdate(guidelineid, obj);
       
@@ -31,7 +32,8 @@ exports.addGuideline = async (req, res) => {
     } else {
       const obj = {
         policyid: policyid,
-        policy: policy
+        policy: policy,
+        priority: priority
       }
       await Guideline.create(obj);
       

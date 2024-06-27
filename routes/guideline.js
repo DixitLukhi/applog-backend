@@ -16,6 +16,10 @@ const policyValidation = [
   check("policy")
     .notEmpty()
     .withMessage("Policy is required")
+    .trim(),
+  check("priority")
+    .notEmpty()
+    .withMessage("Priority is required")
     .trim()
 ];
 

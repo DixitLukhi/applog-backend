@@ -12,6 +12,10 @@ const guidelineSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+  priority: {
+    type: String,
+    required: true
+  }
 });
 
 module.exports = mongoose.model('Guideline', guidelineSchema);

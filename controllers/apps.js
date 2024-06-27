@@ -102,6 +102,41 @@ exports.getOneApp = async (req, res) => {
     }
   };
 
+  exports.compareApp = async (req, res) => {
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  
+    const { apps } = req.query;
+    const errors = validationResult(req);
+  if (errors.isEmpty()) {
+    if (apps && apps.length == 0) {
+      return responseManager.badrequest(
+        { message: "Select one app" },
+        res
+      );
+    }
+    if (apps && apps.length <= 5) {
+      const appIds = apps.map(app => app);
+      try {
+        const appList = await App.find({ _id: { $in: appIds } })
+        .select("appName appLogo guidelines")
+        .lean();
+
+        return responseManager.onSuccess("App list", appList, res);
+      } catch (error) {
+        return responseManager.onError(error, res);
+      }
+    } else {
+      return responseManager.badrequest(
+        { message: "U can compare max 5 apps" },
+        res
+      );
+    }
+  } else {
+  return responseManager.schemaError(errors.array()[0].msg, res);
+}
+  };
+
 exports.removeApp = async (req, res) => {
     const { appid } = req.body;
   

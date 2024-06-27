@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
 const helper = require("../utilities/helper");
-const { addApp, getOneApp, listApps, removeApp } = require("../controllers/apps");
+const { addApp, getOneApp, listApps, removeApp, compareApp } = require("../controllers/apps");
 
 const appValidation = [
   check("appid")
@@ -19,9 +19,17 @@ const appValidation = [
     check("guidelines")
 ];
 
+const compareAppValidation = [
+  check("apps")
+    .notEmpty()
+    .withMessage("Apps is required")  
+  .trim(),
+];
+
 router.post("/app", helper.isAuthenticated, helper.isAdmin, appValidation, addApp);
 
 router.get("/allapp", listApps);
+router.get("/compareapp", compareAppValidation, compareApp);
 router.get("/app", getOneApp);
 
 router.post("/removeapp", helper.isAuthenticated, helper.isAdmin, removeApp);
