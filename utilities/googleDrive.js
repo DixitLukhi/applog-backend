@@ -1,13 +1,27 @@
+require("dotenv").config();
+
 const stream = require("stream");
 const path = require("path");
 const { google } = require('googleapis');
 
 // const KEYFILEPATH = path.join(__dirname, './googleDrive.json');
-const KEYFILEPATH = path.join(__dirname, './applogKey.json');
+// const KEYFILEPATH = path.join(__dirname, './applogKey.json');
 const SCOPES = ["https://www.googleapis.com/auth/drive"];
 
 const auth = new google.auth.GoogleAuth({
-    keyFile: KEYFILEPATH,
+    credentials: {
+        type: process.env.GOOGLE_DRIVE_TYPE,
+        project_id: process.env.GOOGLE_DRIVE_PROJECT_ID,
+        private_key_id: process.env.GOOGLE_DRIVE_PRIVATE_KEY_ID,
+        private_key: process.env.GOOGLE_DRIVE_PRIVATE_KEY,
+        client_email: process.env.GOOGLE_DRIVE_CLIENT_EMAIL,
+        client_id: process.env.GOOGLE_DRIVE_CLIENT_ID,
+        auth_uri: process.env.GOOGLE_DRIVE_AUTH_URI,
+        token_uri: process.env.GOOGLE_DRIVE_TOKEN_URI,
+        auth_provider_x509_cert_url: process.env.GOOGLE_DRIVE_AUTH_PROVIDER_X509_CERT_URL,
+        client_x509_cert_url: process.env.GOOGLE_DRIVE_CLIENT_X509_CERT_URL,
+        universe_domain: process.env.GOOGLE_DRIVE_UNIVERSE_DOMAIN
+    },
     scopes: SCOPES,
 });
 
